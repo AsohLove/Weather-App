@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.5s ease;
+  background: linear-gradient(to right, #4CAF50, #2196F3);
+}
+
+.container {
+  text-align: center;
+}
+
+.weather-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  width: 450px;
+}
+
+.weather-card:hover {
+  transform: scale(1.05);
+}
+
+#city {
+  padding: 15px;
+  margin: 10px 0;
+  width: 70%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#city:focus {
+  outline: none;
+  border-color: #2196F3;
+}
+
+#city::placeholder {
+  color: #aaa;
+}
+
+#city-btn {
+  padding: 10px;
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#city-btn:hover {
+  background-color: #1565C0;
+}
+
+#weather-info {
+  display: none;
+}
+
+#weather-icon {
+  width: 100px;
+  height: 100px;
+}
+
+#temperature {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+#description {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#wind-speed {
+  font-size: 16px;
+  color: rgb(255, 0, 0);
+}
+
+#date {
+  font-size: 14px;
+  color: rgb(255, 0, 0);
+}
+
+#forecast-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.forecast-card {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 10px;
+  width: 80px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.clear {
+  background: linear-gradient(to right, #fceabb, #f8b500);
+}
+
+.clouds {
+  background: linear-gradient(to right, #bdc3c7, #2c3e50);
+}
+
+.rain {
+  background: linear-gradient(to right, #4b79a1, #283e51);
+}
+
+.snow {
+  background: linear-gradient(to right, #e6dada, #274046);
+}
+
+.thunderstorm {
+  background: linear-gradient(to right, #141e30, #243b55);
+}
+
+.mist {
+  background: linear-gradient(to right, #606c88, #3f4c6b);
+}
