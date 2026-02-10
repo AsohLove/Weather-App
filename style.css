@@ -1,12 +1,12 @@
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Montserrat, 'sans-serif';
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   transition: background 0.5s ease;
-  background: linear-gradient(to right, #4CAF50, #2196F3);
+  background: linear-gradient(to right, #4caf50, #2196f3);
 }
 
 .container {
@@ -14,10 +14,10 @@ body {
 }
 
 .weather-card {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 95%);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 10%);
   transition: transform 0.3s ease-in-out;
   width: 450px;
 }
@@ -37,7 +37,7 @@ body {
 
 #city:focus {
   outline: none;
-  border-color: #2196F3;
+  border-color: #2196f3;
 }
 
 #city::placeholder {
@@ -46,7 +46,7 @@ body {
 
 #city-btn {
   padding: 10px;
-  background-color: #2196F3;
+  background-color: #2196f3;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -55,7 +55,7 @@ body {
 }
 
 #city-btn:hover {
-  background-color: #1565C0;
+  background-color: #1565c0;
 }
 
 #weather-info {
@@ -80,12 +80,12 @@ body {
 
 #wind-speed {
   font-size: 16px;
-  color: rgb(255, 0, 0);
+  color: rgb(255 0 0);
 }
 
 #date {
   font-size: 14px;
-  color: rgb(255, 0, 0);
+  color: rgb(255 0 0);
 }
 
 #forecast-container {
