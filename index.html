@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+	<title>Weather App</title>
+	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
+	<div class="container">
 		<div class="weather-card">
 			<h1>Weather App</h1>
 
 			<input type="text" id="city" placeholder="Enter city name">
 			<button id="city-btn">Get Weather</button>
 
-			<div id="weather-info" class="animate__animated animate__fadeIn">
+			<div id="weather-info" class="animate-animated animate-fade">
 				<h3 id="city-name"></h3>
 				<p id="humidity"></p>
 				<img id="weather-icon" src="" alt="Weather Icon">
@@ -24,17 +26,18 @@
 				<p id="description"></p>
 				<p id="wind-speed"></p>
 			</div>
-            <div id="forecast">
-                <h3>Forecast</h3>
-                <div id="forecast-container"></div>
-            </div>
+			<div id="forecast">
+				<h3>Forecast</h3>
+				<div id="forecast-container"></div>
+			</div>
 		</div>
-        
+
 	</div>
-   
 
-    
 
-    <script src="script.js"></script>
+
+
+	<script src="script.js"></script>
 </body>
+
 </html>
