@@ -1,3 +1,4 @@
+/* global apiKey */
 /* global localStorage */
 
 const cityInput = document.getElementById('city')
