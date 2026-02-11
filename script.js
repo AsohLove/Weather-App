@@ -1,7 +1,5 @@
 /* global localStorage */
 
-const apiKey = 'e4b41e596be36010c330bda7a6ed4a26'
-
 const cityInput = document.getElementById('city')
 const cityButton = document.getElementById('city-btn')
 
