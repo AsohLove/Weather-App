@@ -17,6 +17,8 @@ A  weather application that displays current weather conditions and a 5‑day fo
 |
 |--- style.css # All CSS styling
 |
+|--- config.local.js # Hide the API key
+|
 |---README.md # Project overview and documentation
 |
 ```

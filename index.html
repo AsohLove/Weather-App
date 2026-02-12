@@ -19,10 +19,18 @@
       <button id="city-btn">Get Weather</button>
   
       <div id="weather-info" class="animate-animated animate-fade">
-        <h2 id="city-name"></h2>
+        <div class="location">
+            <h2 id="city-name"></h2>
+            <h3 id="date"></h3>
+        </div>
+        
         <p id="humidity"></p>
         <img id="weather-icon" src="#" alt="Weather Icon">
         <p id="temperature"></p>
+        <div class="toggle-unit">
+          <button id="celsius-btn" class="active">°C</button>
+          <button id="fah-btn">°F</button>
+        </div>
         <p id="description"></p>
         <p id="wind-speed"></p>
       </div>

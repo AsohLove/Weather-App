@@ -1,11 +1,13 @@
 /* global apiKey */
 /* global localStorage */
 
+let currentUnit = 'metric'
+let currentCity = null
 const cityInput = document.getElementById('city')
 const cityButton = document.getElementById('city-btn')
 
 const fetchWeatherData = (city) => {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${currentUnit}`)
     .then(response => {
       if (!response.ok) throw new Error('City not found')
       return response.json()
@@ -14,6 +16,7 @@ const fetchWeatherData = (city) => {
       updateUI(data)
       saveLastCity(data.name)
       fetchForecastData(data.name)
+      currentCity = data.name
     })
     .catch(error => {
       window.alert(error.message)
@@ -22,8 +25,13 @@ const fetchWeatherData = (city) => {
 }
 
 const updateUI = (data) => {
-  document.getElementById('city-name').textContent = data.name
-  document.getElementById('temperature').textContent = `${data.main.temp}°C`
+  const time = data.dt;
+  const date = new Date(time * 1000);
+
+  document.getElementById('date').textContent = date.toDateString();
+  document.getElementById('city-name').textContent = data.name + " " + data.sys.country;
+  const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
+  document.getElementById('temperature').textContent = `Temp: ${data.main.temp}${unitSymbol}`
   document.getElementById('description').textContent = data.weather[0].description
   document.getElementById('humidity').textContent = `Humidity: ${data.main.humidity}%`
   document.getElementById('wind-speed').textContent = `Wind Speed: ${data.wind.speed} m/s`
@@ -35,6 +43,8 @@ const updateUI = (data) => {
   document.getElementById('weather-info').style.display = 'block'
 
   changeBackground(data.weather[0].main)
+
+
 }
 
 const saveLastCity = (cityName) => {
@@ -67,7 +77,7 @@ document.addEventListener('DOMContentLoaded', loadLastCity)
 
 const fetchForecastData = (city) => {
   fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=${currentUnit}`
   )
     .then(res => res.json())
     .then(data => {
@@ -82,6 +92,8 @@ const displayForecast = (data) => {
   forecastContainer.innerHTML = ''
 
   const dailyForecasts = data.list.filter((item, index) => index % 8 === 0)
+
+  const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
 
   dailyForecasts.forEach((item, i) => {
     if (i >= 5) return
@@ -99,7 +111,7 @@ const displayForecast = (data) => {
     card.innerHTML = `
       <p>${date}</p>
       <img src="https://openweathermap.org/img/wn/${icon}.png" />
-      <p>${temp}°C</p>
+      <p>${temp}${unitSymbol}</p>
     `
 
     forecastContainer.appendChild(card)
@@ -134,4 +146,28 @@ const changeBackground = (weather) => {
     default:
       document.body.classList.add('clear')
   }
+}
+
+const celsiusBtn = document.getElementById('celsius-btn')
+const fahrenheitBtn = document.getElementById('fah-btn')
+
+celsiusBtn.addEventListener('click', () => {
+  if (currentUnit !== 'metric') {
+    currentUnit = 'metric'
+    updateActiveButton()
+    fetchWeatherData(currentCity)
+  }
+})
+
+fahrenheitBtn.addEventListener('click', () => {
+  if (currentUnit !== 'imperial') {
+    currentUnit = 'imperial'
+    updateActiveButton()
+    fetchWeatherData(currentCity)
+  }
+})
+
+function updateActiveButton() {
+  celsiusBtn.classList.toggle('active', currentUnit === 'metric')
+  fahrenheitBtn.classList.toggle('active', currentUnit === 'imperial')
 }
