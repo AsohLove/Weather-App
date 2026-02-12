@@ -6,9 +6,7 @@ body {
   align-items: center;
   min-height: 100vh;
   transition: background 0.5s ease;
-  background: linear-gradient(to right, #4caf50, #2196f3); 
-  
-
+  background: linear-gradient(to right, #4caf50, #2196f3);
 }
 
 .container {
@@ -118,7 +116,6 @@ body {
   background-color: black;
   color: white;
 }
-
 
 .clear {
   background: linear-gradient(to right, #fceabb, #f8b500);

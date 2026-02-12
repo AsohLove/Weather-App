@@ -25,11 +25,11 @@ const fetchWeatherData = (city) => {
 }
 
 const updateUI = (data) => {
-  const time = data.dt;
-  const date = new Date(time * 1000);
+  const time = data.dt
+  const date = new Date(time * 1000)
 
-  document.getElementById('date').textContent = date.toDateString();
-  document.getElementById('city-name').textContent = data.name + " " + data.sys.country;
+  document.getElementById('date').textContent = date.toDateString()
+  document.getElementById('city-name').textContent = data.name + ' ' + data.sys.country
   const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
   document.getElementById('temperature').textContent = `Temp: ${data.main.temp}${unitSymbol}`
   document.getElementById('description').textContent = data.weather[0].description
@@ -43,8 +43,6 @@ const updateUI = (data) => {
   document.getElementById('weather-info').style.display = 'block'
 
   changeBackground(data.weather[0].main)
-
-
 }
 
 const saveLastCity = (cityName) => {
@@ -167,7 +165,7 @@ fahrenheitBtn.addEventListener('click', () => {
   }
 })
 
-function updateActiveButton() {
+function updateActiveButton () {
   celsiusBtn.classList.toggle('active', currentUnit === 'metric')
   fahrenheitBtn.classList.toggle('active', currentUnit === 'imperial')
 }
