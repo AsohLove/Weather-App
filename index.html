@@ -13,33 +13,58 @@
 <body>
   <div class="container">
     <div class="weather-card">
-      <h1>Weather App</h1>
-  
-      <input type="text" id="city" placeholder="Enter city name">
+
+      <h1><img src="./images/weather-app.png" alt="Weather Icon" height="70">RainViewer</h1>
+
+
+      <input type="text" id="city" placeholder="Enter city" autocomplete="off">
+      <div id="suggestions" class="suggestions-container"></div>
       <button id="city-btn">Get Weather</button>
-  
+
       <div id="weather-info" class="animate-animated animate-fade">
         <div class="location">
-            <h2 id="city-name"></h2>
-            <h3 id="date"></h3>
+          <h2 id="city-name"></h2>
+          <h3 id="date"></h3>
         </div>
-        
-        <p id="humidity"></p>
+
+        <div class="weather-prop">
+          <div class="properties">
+            <img src="./images/humidity.png" alt="humidity" height="100">
+            <p id="humidity"></p>
+          </div>
+
+          <div class="properties">
+            <img src="./images/temp.png" alt="temperature" height="100">
+            <p id="temperature"></p>
+            <div class="toggle-unit">
+              <button id="celsius-btn" class="active">°C</button>
+              <button id="fah-btn">°F</button>
+            </div>
+          </div>
+
+          <div class="properties">
+            <img src="./images/description.png" alt="weather description" height="100">
+            <p id="description"></p>
+          </div>
+          <div class="properties">
+            <img src="./images/wind.png" alt="wind speed" height="100">
+            <p id="wind-speed"></p>
+          </div>
+        </div>
         <img id="weather-icon" src="#" alt="Weather Icon">
-        <p id="temperature"></p>
-        <div class="toggle-unit">
-          <button id="celsius-btn" class="active">°C</button>
-          <button id="fah-btn">°F</button>
-        </div>
-        <p id="description"></p>
-        <p id="wind-speed"></p>
+
+
       </div>
       <div id="forecast">
-        <h2>Forecast</h2>
+        <h2>Next 5 days Forecast</h2>
         <div id="forecast-container"></div>
       </div>
+      <div>
+        <h2>Past 5 days</h2>
+        <div id="past-container" class="forecast-grid"></div>
+      </div>
     </div>
-  
+
   </div>
 
 
