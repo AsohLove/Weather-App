@@ -240,7 +240,7 @@ const displayPastWeather = (data) => {
 }
 
 const suggestionsContainer = document.getElementById('suggestions')
-let selectedCity = null
+const selectedCity = null
 
 cityInput.addEventListener('input', () => {
   selectedCity = null

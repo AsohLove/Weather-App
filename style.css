@@ -1,19 +1,20 @@
 body {
   margin: 0;
   font-family: Montserrat, sans-serif;
+
   /* display: flex;
   justify-content: center; */
   align-items: center;
   min-height: 100vh;
   transition: background 0.5s ease;
+  
   /* background: linear-gradient(to right, #4caf50, #2196f3); */
-  background: url(./images/bg.jpg) no-repeat center center/cover; 
+  background: url('./images/bg.jpg') no-repeat center center/cover;
+
 }
 
 .container {
   text-align: center;
-  /* border: 1px solid black;
-  border-radius: 30px; */
 }
 
 /* .weather-card {
@@ -85,7 +86,6 @@ body {
   background-color: #f0f0f0;
 }
 
-
 .weather-prop {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -93,18 +93,17 @@ body {
 }
 
 .properties {
-  background: rgba(255, 255, 255, 0.2);
-	box-shadow: 0 8px 32px 0 rgba(31, 31, 31, 0.37);
-	backdrop-filter: blur(7px);
-	-webkit-backdrop-filter: blur(7px);
-	border-radius: 20px;
-	max-width: 300px;
-	min-height: 200px;
-	position: relative;
-	margin: auto;
-	margin-top: 30px;
-	padding: 20px;
-	text-align: center;
+  background: rgba(255 255 255 20%);
+  box-shadow: 0 8px 32px 0 rgba(31 31 31 37%);
+  backdrop-filter: blur(7px);
+  border-radius: 20px;
+  max-width: 300px;
+  min-height: 200px;
+  position: relative;
+  margin: auto;
+  margin-top: 30px;
+  padding: 20px;
+  text-align: center;
 }
 
 #temperature {
@@ -160,6 +159,7 @@ body {
   display: flex;
   justify-content: space-around;
 }
+
 .clear {
   background: linear-gradient(to right, #fceabb, #f8b500);
 }
@@ -182,4 +182,4 @@ body {
 
 .mist {
   background: linear-gradient(to right, #606c88, #3f4c6b);
-} 
+}
