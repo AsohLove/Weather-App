@@ -5,29 +5,29 @@ let currentUnit = 'metric'
 let currentCity = null
 const cityInput = document.getElementById('city')
 const cityButton = document.getElementById('city-btn')
-const mapLink  = document.getElementById('map-link')
+const mapLink = document.getElementById('map-link')
 
 const fetchWeatherData = (city) => {
   fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=6&aqi=no`,
+    `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=6&aqi=no`
   )
     .then((response) => {
-      if (!response.ok) throw new Error("City not found");
-      return response.json();
+      if (!response.ok) throw new Error('City not found')
+      return response.json()
     })
     .then((data) => {
-      updateUI(data);
-      saveLastCity(data.location.name);
-      fetchForecastData(data.location.name);
-      fetchPastFiveDays(data.location.name);
-      updateMapLink(data.location.name);
+      updateUI(data)
+      saveLastCity(data.location.name)
+      fetchForecastData(data.location.name)
+      fetchPastFiveDays(data.location.name)
+      updateMapLink(data.location.name)
 
-      currentCity = data.location.name;
+      currentCity = data.location.name
     })
     .catch((error) => {
-      window.alert(error.message);
-      console.error(error);
-    });
+      window.alert(error.message)
+      console.error(error)
+    })
 }
 
 const updateUI = (data) => {
@@ -84,7 +84,6 @@ cityButton.addEventListener('click', () => {
   const city = cityInput.value.trim()
   if (city) {
     fetchWeatherData(city)
-    
   }
 })
 
@@ -102,7 +101,6 @@ const fetchForecastData = (city) => {
     .then(data => {
       displayForecast(data)
       displayHourlyForecast(data)
-
     })
     .catch(err => console.error('Forecast error:', err))
 }
@@ -149,7 +147,6 @@ const displayForecast = (data) => {
   })
 }
 
-
 const displayHourlyForecast = (data) => {
   const hourlyContainer = document.getElementById('hourly-container')
   hourlyContainer.innerHTML = ''
@@ -157,7 +154,6 @@ const displayHourlyForecast = (data) => {
   const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
   const hours = data.forecast.forecastday[0].hour
 
-  
   const currentHour = new Date().getHours()
 
   let nextHours = hours.slice(currentHour, currentHour + 5)
@@ -166,7 +162,6 @@ const displayHourlyForecast = (data) => {
     const remaining = 5 - nextHours.length
     nextHours = nextHours.concat(hours.slice(0, remaining))
   }
-
 
   nextHours.forEach(hour => {
     const time = hour.time.split(' ')[1]
@@ -195,7 +190,6 @@ const displayHourlyForecast = (data) => {
     hourlyContainer.appendChild(card)
   })
 }
-
 
 const changeBackground = (weather) => {
   document.body.className = ''
@@ -348,11 +342,9 @@ document.addEventListener('click', (e) => {
 })
 
 const updateMapLink = (destination) => {
-  const baseURL = "https://www.google.com/maps/search/?api=1";
-  const encodedDestination = encodeURIComponent(destination);
-  const finalURL = `${baseURL}&query=${encodedDestination}`;
+  const baseURL = 'https://www.google.com/maps/search/?api=1'
+  const encodedDestination = encodeURIComponent(destination)
+  const finalURL = `${baseURL}&query=${encodedDestination}`
 
-  mapLink.href = finalURL;
+  mapLink.href = finalURL
 }
-
-

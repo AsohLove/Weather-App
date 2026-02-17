@@ -7,6 +7,7 @@ body {
   min-height: 100vh;
   padding: 40px 20px;
   transition: background 0.5s ease;
+
   /* background: linear-gradient(to right, #4caf50, #2196f3); */
   background: url("./images/bg.jpg") no-repeat center center/cover;
 }
@@ -20,19 +21,33 @@ body {
   padding: 30px;
   text-align: center;
   color: black;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 40px rgba(0 0 0 25%);
+}
+
+.forecast-card {
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  padding: 10px;
+  width: 80px;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  background: linear-gradient(145deg,
+  rgba(255 255 255 15%),
+  rgba(255 255 255 5%));
+
+  box-shadow: 0 8px 20px rgba(0 0 0 20%);
 }
 
 .forecast-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 25px rgba(0 0 0 30%);
 }
 
 #city {
   padding: 15px;
   margin: 10px 0;
   flex: 1;
-  /* width: 40%; */
   border: none;
   border-radius: 12px;
   font-size: 16px;
@@ -58,17 +73,17 @@ body {
   cursor: pointer;
 }
 
+#map-link {
+  margin-left: 10px;
+  text-decoration: none;
+}
+
 #city-btn:hover {
   background-color: #1565c0;
 }
 
 #weather-info {
   display: none;
-}
-
-#weather-icon {
-  width: 100px;
-  height: 100px;
 }
 
 .suggestions {
@@ -139,6 +154,11 @@ body {
   margin: 30px 0;
 }
 
+.forecast-card p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
 .forecast-card p:first-child {
   font-weight: 600;
   font-size: 14px;
@@ -156,30 +176,9 @@ body {
   margin: 5px 0;
 }
 
-.forecast-card p {
-  margin: 4px 0;
-  font-size: 13px;
-}
-
 .forecast h2 {
   text-align: center;
   margin-bottom: 15px;
-}
-
-.forecast-card {
-  background: #f5f5f5;
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  padding: 10px;
-  width: 80px;
-  text-align: center;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  background: linear-gradient(145deg,
-      rgba(255, 255, 255, 0.15),
-      rgba(255, 255, 255, 0.05));
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-
 }
 
 .location {
@@ -214,7 +213,7 @@ body {
 
 .hourly-card {
   min-width: 120px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255 255 255 15%);
   backdrop-filter: blur(8px);
   border-radius: 12px;
   padding: 10px;
