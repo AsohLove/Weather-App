@@ -5,25 +5,29 @@ let currentUnit = 'metric'
 let currentCity = null
 const cityInput = document.getElementById('city')
 const cityButton = document.getElementById('city-btn')
+const mapLink  = document.getElementById('map-link')
 
 const fetchWeatherData = (city) => {
-  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=6&aqi=no`)
-    .then(response => {
-      if (!response.ok) throw new Error('City not found')
-      return response.json()
+  fetch(
+    `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=6&aqi=no`,
+  )
+    .then((response) => {
+      if (!response.ok) throw new Error("City not found");
+      return response.json();
     })
-    .then(data => {
-      updateUI(data)
-      saveLastCity(data.location.name)
-      fetchForecastData(data.location.name)
-      fetchPastFiveDays(data.location.name)
+    .then((data) => {
+      updateUI(data);
+      saveLastCity(data.location.name);
+      fetchForecastData(data.location.name);
+      fetchPastFiveDays(data.location.name);
+      updateMapLink(data.location.name);
 
-      currentCity = data.location.name
+      currentCity = data.location.name;
     })
-    .catch(error => {
-      window.alert(error.message)
-      console.error(error)
-    })
+    .catch((error) => {
+      window.alert(error.message);
+      console.error(error);
+    });
 }
 
 const updateUI = (data) => {
@@ -42,7 +46,7 @@ const updateUI = (data) => {
     : data.current.temp_f
 
   document.getElementById('temperature').textContent =
-  `Temp: ${temperature}${unitSymbol}`
+  `${temperature}${unitSymbol}`
 
   document.getElementById('description').textContent = data.current.condition.text
   document.getElementById('humidity').textContent = `Humidity: ${data.current.humidity}%`
@@ -80,6 +84,7 @@ cityButton.addEventListener('click', () => {
   const city = cityInput.value.trim()
   if (city) {
     fetchWeatherData(city)
+    
   }
 })
 
@@ -96,6 +101,8 @@ const fetchForecastData = (city) => {
     .then(res => res.json())
     .then(data => {
       displayForecast(data)
+      displayHourlyForecast(data)
+
     })
     .catch(err => console.error('Forecast error:', err))
 }
@@ -141,6 +148,54 @@ const displayForecast = (data) => {
     forecastContainer.appendChild(card)
   })
 }
+
+
+const displayHourlyForecast = (data) => {
+  const hourlyContainer = document.getElementById('hourly-container')
+  hourlyContainer.innerHTML = ''
+
+  const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
+  const hours = data.forecast.forecastday[0].hour
+
+  
+  const currentHour = new Date().getHours()
+
+  let nextHours = hours.slice(currentHour, currentHour + 5)
+
+  if (nextHours.length < 5) {
+    const remaining = 5 - nextHours.length
+    nextHours = nextHours.concat(hours.slice(0, remaining))
+  }
+
+
+  nextHours.forEach(hour => {
+    const time = hour.time.split(' ')[1]
+
+    const temp = currentUnit === 'metric'
+      ? Math.round(hour.temp_c)
+      : Math.round(hour.temp_f)
+
+    const windSpeed = currentUnit === 'metric'
+      ? hour.wind_kph
+      : hour.wind_mph
+
+    const windUnit = currentUnit === 'metric' ? 'kph' : 'mph'
+
+    const card = document.createElement('div')
+    card.className = 'hourly-card'
+
+    card.innerHTML = `
+      <p>${time}</p>
+      <img src="https:${hour.condition.icon}" />
+      <p>${temp}${unitSymbol}</p>
+      <p>${hour.condition.text}</p>
+      <p>Wind: ${Math.round(windSpeed)} ${windUnit}</p>
+    `
+
+    hourlyContainer.appendChild(card)
+  })
+}
+
 
 const changeBackground = (weather) => {
   document.body.className = ''
@@ -240,10 +295,10 @@ const displayPastWeather = (data) => {
 }
 
 const suggestionsContainer = document.getElementById('suggestions')
-const selectedCity = null
+let selectedCity = null
 
 cityInput.addEventListener('input', () => {
-  selectedCity = null
+  // selectedCity = null
   const query = cityInput.value.trim()
   if (!query) {
     suggestionsContainer.innerHTML = ''
@@ -291,3 +346,13 @@ document.addEventListener('click', (e) => {
     suggestionsContainer.innerHTML = ''
   }
 })
+
+const updateMapLink = (destination) => {
+  const baseURL = "https://www.google.com/maps/search/?api=1";
+  const encodedDestination = encodeURIComponent(destination);
+  const finalURL = `${baseURL}&query=${encodedDestination}`;
+
+  mapLink.href = finalURL;
+}
+
+
