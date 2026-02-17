@@ -32,10 +32,12 @@ body {
   text-align: center;
   transition: all 0.3s ease;
   font-size: 14px;
-  background: linear-gradient(145deg,
+  background:
+  linear-gradient(
+  145deg,
   rgba(255 255 255 15%),
-  rgba(255 255 255 5%));
-
+  rgba(255 255 255 5%)
+  );
   box-shadow: 0 8px 20px rgba(0 0 0 20%);
 }
 

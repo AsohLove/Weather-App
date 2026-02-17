@@ -289,7 +289,7 @@ const displayPastWeather = (data) => {
 }
 
 const suggestionsContainer = document.getElementById('suggestions')
-let selectedCity = null
+// let selectedCity = null
 
 cityInput.addEventListener('input', () => {
   // selectedCity = null
@@ -311,7 +311,7 @@ cityInput.addEventListener('input', () => {
 
         div.addEventListener('click', () => {
           cityInput.value = `${location.name}, ${location.country}`
-          selectedCity = location.name
+          // selectedCity = location.name
           suggestionsContainer.innerHTML = ''
           fetchWeatherData(location.name)
         })
