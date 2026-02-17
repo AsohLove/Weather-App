@@ -1,6 +1,5 @@
 /* global localStorage */
-const apiKey = '940e52d88061406db9195902260602' 
-
+const apiKey = '940e52d88061406db9195902260602'
 
 let currentUnit = 'metric'
 let currentCity = null
