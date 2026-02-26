@@ -17,8 +17,6 @@ A  weather application that displays current weather conditions and a 5‑day fo
 |
 |--- style.css # All CSS styling
 |
-|--- config.local.js # Hide the API key
-|
 |---README.md # Project overview and documentation
 |
 ```
@@ -27,7 +25,7 @@ A  weather application that displays current weather conditions and a 5‑day fo
 - HTML
 - CSS
 - JavaScript
-- OpenWeatherMap API
+- WeatherAPI
 
 ### :sparkles: Features
 
@@ -86,6 +84,14 @@ const loadLastCity = () => {
 }
  
 ```
+
+### App Preview
+
+- Desktop version 
+  ![Weather desktop version](./images/Weather-Desptop.png)
+
+- Mobile version 
+ ![Weather mobile version](./images/Weather-Mobile.png)
 
 * :rocket: [Deployed page](https://asohlove.github.io/Weather-App/)
 

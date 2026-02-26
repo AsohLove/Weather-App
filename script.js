@@ -1,219 +1,186 @@
 /* global localStorage */
-const apiKey = '940e52d88061406db9195902260602'
+const apiKey = 'e4b41e596be36010c330bda7a6ed4a26'
 
 let currentUnit = 'metric'
 let currentCity = null
+
 const cityInput = document.getElementById('city')
 const cityButton = document.getElementById('city-btn')
 const mapLink = document.getElementById('map-link')
+const suggestionsContainer = document.getElementById('suggestions')
 
-const fetchWeatherData = (city) => {
-  fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=6&aqi=no`
-  )
-    .then((response) => {
-      if (!response.ok) throw new Error('City not found')
-      return response.json()
-    })
-    .then((data) => {
-      updateUI(data)
-      saveLastCity(data.location.name)
-      fetchForecastData(data.location.name)
-      fetchPastFiveDays(data.location.name)
-      updateMapLink(data.location.name)
+const fetchWeatherData = async (city) => {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${currentUnit}&appid=${apiKey}`
+    )
 
-      currentCity = data.location.name
-    })
-    .catch((error) => {
-      window.alert(error.message)
-      console.error(error)
-    })
+    if (!response.ok) throw new Error('City not found')
+
+    const data = await response.json()
+
+    updateUI(data)
+    saveLastCity(city)
+    fetchForecastData(city)
+    updateMapLink(city)
+
+    currentCity = city
+  } catch (error) {
+    window.alert(error.message)
+    console.error(error)
+  }
 }
 
 const updateUI = (data) => {
-  const time = data.location.localtime.split(' ')[0] // "YYYY-MM-DD"
-  const dateObj = new Date(time)
-  document.getElementById('date').textContent = dateObj.toLocaleDateString('en-US', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-  document.getElementById('city-name').textContent = `${data.location.name}, ${data.location.country}`
+  const dateObj = new Date()
+  document.getElementById('date').textContent =
+    dateObj.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+
+  document.getElementById('city-name').textContent =
+    `${data.name}, ${data.sys.country}`
+
   const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
-  const temperature = currentUnit === 'metric'
-    ? data.current.temp_c
-    : data.current.temp_f
-
   document.getElementById('temperature').textContent =
-  `${temperature}${unitSymbol}`
+    `${Math.round(data.main.temp)}${unitSymbol}`
 
-  document.getElementById('description').textContent = data.current.condition.text
-  document.getElementById('humidity').textContent = `Humidity: ${data.current.humidity}%`
-  const windSpeed = currentUnit === 'metric'
-    ? data.current.wind_kph
-    : data.current.wind_mph
+  document.getElementById('description').textContent =
+    data.weather[0].description
 
-  const windUnit = currentUnit === 'metric' ? 'kph' : 'mph'
+  document.getElementById('humidity').textContent =
+    `Humidity: ${data.main.humidity}%`
 
+  const windUnit = currentUnit === 'metric' ? 'm/s' : 'mph'
   document.getElementById('wind-speed').textContent =
-  `Wind Speed: ${windSpeed} ${windUnit}`
+    `Wind Speed: ${data.wind.speed} ${windUnit}`
 
   const weatherIcon = document.getElementById('weather-icon')
-  weatherIcon.src = `https:${data.current.condition.icon}`
+  weatherIcon.src =
+    `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
 
   document.getElementById('weather-info').style.display = 'block'
 
-  changeBackground(data.current.condition.text)
+  changeBackground(data.weather[0].main)
 }
 
-const saveLastCity = (cityName) => {
-  localStorage.setItem('lastSearchCity', cityName)
-}
+const fetchForecastData = async (city) => {
+  try {
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${currentUnit}&appid=${apiKey}`
+    )
 
-const loadLastCity = () => {
-  const lastCity = localStorage.getItem('lastSearchCity')
-  if (lastCity) {
-    fetchWeatherData(lastCity)
-  } else {
-    fetchWeatherData('London')
+    const data = await res.json()
+
+    displayForecast(data)
+    displayPastForecast(data)
+
+    displayHourlyForecast(data)
+  } catch (err) {
+    console.error('Forecast error:', err)
   }
-}
-
-cityButton.addEventListener('click', () => {
-  const city = cityInput.value.trim()
-  if (city) {
-    fetchWeatherData(city)
-  }
-})
-
-cityInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    cityButton.click()
-  }
-})
-
-document.addEventListener('DOMContentLoaded', loadLastCity)
-
-const fetchForecastData = (city) => {
-  fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=6&aqi=no`)
-    .then(res => res.json())
-    .then(data => {
-      displayForecast(data)
-      displayHourlyForecast(data)
-    })
-    .catch(err => console.error('Forecast error:', err))
 }
 
 const displayForecast = (data) => {
-  const forecastContainer = document.getElementById('forecast-container')
-  forecastContainer.innerHTML = ''
+  const container = document.getElementById('forecast-container')
+  container.innerHTML = ''
 
   const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
 
-  data.forecast.forecastday.slice(1, 6).forEach(day => {
-    const date = new Date(day.date).toLocaleDateString('en-US', {
+  const dailyData = data.list.filter(item =>
+    item.dt_txt.includes('12:00:00')
+  )
+
+  dailyData.slice(0, 5).forEach(day => {
+    const date = new Date(day.dt_txt).toLocaleDateString('en-US', {
       weekday: 'short',
-      year: 'numeric',
       month: 'short',
       day: 'numeric'
     })
-    const temp = currentUnit === 'metric'
-      ? Math.round(day.day.avgtemp_c)
-      : Math.round(day.day.avgtemp_f)
-
-    const icon = day.day.condition.icon
-
-    const humidity = day.day.avghumidity
-
-    const windSpeed = currentUnit === 'metric'
-      ? day.day.maxwind_kph
-      : day.day.maxwind_mph
-
-    const windUnit = currentUnit === 'metric' ? 'kph' : 'mph'
 
     const card = document.createElement('div')
     card.className = 'forecast-card'
 
     card.innerHTML = `
       <p>${date}</p>
-      <img src="https:${icon}" />
-      <p>${temp}${unitSymbol}</p>
-      <p>Humidity: ${humidity}</p>
-      <p>Wind: ${Math.round(windSpeed)} ${windUnit}</p>
+      <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" />
+      <p>${Math.round(day.main.temp)}${unitSymbol}</p>
+      <p>${day.weather[0].description}</p>
+      <p>Humidity: ${day.main.humidity}%</p>
     `
 
-    forecastContainer.appendChild(card)
+    container.appendChild(card)
   })
 }
 
 const displayHourlyForecast = (data) => {
-  const hourlyContainer = document.getElementById('hourly-container')
-  hourlyContainer.innerHTML = ''
+  const container = document.getElementById('hourly-container')
+  container.innerHTML = ''
 
   const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
-  const hours = data.forecast.forecastday[0].hour
 
-  const currentHour = new Date().getHours()
-
-  let nextHours = hours.slice(currentHour, currentHour + 5)
-
-  if (nextHours.length < 5) {
-    const remaining = 5 - nextHours.length
-    nextHours = nextHours.concat(hours.slice(0, remaining))
-  }
-
-  nextHours.forEach(hour => {
-    const time = hour.time.split(' ')[1]
-
-    const temp = currentUnit === 'metric'
-      ? Math.round(hour.temp_c)
-      : Math.round(hour.temp_f)
-
-    const windSpeed = currentUnit === 'metric'
-      ? hour.wind_kph
-      : hour.wind_mph
-
-    const windUnit = currentUnit === 'metric' ? 'kph' : 'mph'
+  data.list.slice(0, 5).forEach(hour => {
+    const time = new Date(hour.dt_txt).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
 
     const card = document.createElement('div')
     card.className = 'hourly-card'
 
     card.innerHTML = `
       <p>${time}</p>
-      <img src="https:${hour.condition.icon}" />
-      <p>${temp}${unitSymbol}</p>
-      <p>${hour.condition.text}</p>
-      <p>Wind: ${Math.round(windSpeed)} ${windUnit}</p>
+      <img src="https://openweathermap.org/img/wn/${hour.weather[0].icon}.png" />
+      <p>${Math.round(hour.main.temp)}${unitSymbol}</p>
+      <p>${hour.weather[0].description}</p>
     `
 
-    hourlyContainer.appendChild(card)
+    container.appendChild(card)
   })
 }
 
-const changeBackground = (weather) => {
-  document.body.className = ''
-
-  switch (true) {
-    case /Clear/.test(weather):
-      document.body.classList.add('clear')
-      break
-    case /Cloud/.test(weather):
-      document.body.classList.add('clouds')
-      break
-    case /Rain|Drizzle/.test(weather):
-      document.body.classList.add('rain')
-      break
-    case /Snow/.test(weather):
-      document.body.classList.add('snow')
-      break
-    case /Thunder/.test(weather):
-      document.body.classList.add('thunderstorm')
-      break
-    default:
-      document.body.classList.add('mist')
+cityInput.addEventListener('input', async () => {
+  const query = cityInput.value.trim()
+  if (!query) {
+    suggestionsContainer.innerHTML = ''
+    return
   }
-}
+
+  const res = await fetch(
+    `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`
+  )
+
+  const data = await res.json()
+  suggestionsContainer.innerHTML = ''
+
+  data.forEach(location => {
+    const div = document.createElement('div')
+    div.className = 'suggestion-item'
+    div.textContent = `${location.name}, ${location.country}`
+
+    div.addEventListener('click', () => {
+      cityInput.value = location.name
+      suggestionsContainer.innerHTML = ''
+      fetchWeatherData(location.name)
+    })
+
+    suggestionsContainer.appendChild(div)
+  })
+})
+
+cityButton.addEventListener('click', () => {
+  const city = cityInput.value.trim()
+
+  if (!city) {
+    window.alert('Please enter a city name')
+    return
+  }
+
+  fetchWeatherData(city)
+})
 
 const celsiusBtn = document.getElementById('celsius-btn')
 const fahrenheitBtn = document.getElementById('fah-btn')
@@ -239,112 +206,76 @@ function updateActiveButton () {
   fahrenheitBtn.classList.toggle('active', currentUnit === 'imperial')
 }
 
-const fetchPastFiveDays = async (city) => {
-  const container = document.getElementById('past-container')
-  container.innerHTML = ''
-
-  for (let i = 1; i <= 5; i++) {
-    const date = new Date()
-    date.setDate(date.getDate() - i)
-    const dt = date.toISOString().split('T')[0]
-
-    try {
-      const response = await fetch(`https://api.weatherapi.com/v1/history.json?key=${apiKey}&q=${city}&dt=${dt}`)
-      const data = await response.json()
-      displayPastWeather(data)
-    } catch (err) {
-      console.error('Past weather error:', err)
-    }
-  }
+const saveLastCity = (city) => {
+  localStorage.setItem('lastSearchCity', city)
 }
 
-const displayPastWeather = (data) => {
-  const container = document.getElementById('past-container')
-  const day = data.forecast.forecastday[0].day
-  const dateStr = data.forecast.forecastday[0].date
-  const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
-  const temp = currentUnit === 'metric'
-    ? Math.round(day.avgtemp_c)
-    : Math.round(day.avgtemp_f)
-
-  const windSpeed = currentUnit === 'metric'
-    ? day.maxwind_kph
-    : day.maxwind_mph
-
-  const windUnit = currentUnit === 'metric' ? 'kph' : 'mph'
-
-  const card = document.createElement('div')
-  card.className = 'forecast-card'
-
-  card.innerHTML = `
-    <p>${dateStr}</p>
-    <img src="https:${day.condition.icon}" />
-    <p>${temp}${unitSymbol}</p>
-    <p>${day.condition.text}</p>
-    <p>Humidity: ${day.avghumidity}%</p>
-    <p>Wind: ${Math.round(windSpeed)} ${windUnit}</p>
-  `
-
-  container.appendChild(card)
+const loadLastCity = () => {
+  const lastCity = localStorage.getItem('lastSearchCity')
+  fetchWeatherData(lastCity || 'London')
 }
 
-const suggestionsContainer = document.getElementById('suggestions')
-// let selectedCity = null
+document.addEventListener('DOMContentLoaded', loadLastCity)
 
-cityInput.addEventListener('input', () => {
-  // selectedCity = null
-  const query = cityInput.value.trim()
-  if (!query) {
-    suggestionsContainer.innerHTML = ''
-    return
+const changeBackground = (weather) => {
+  document.body.className = ''
+
+  switch (weather) {
+    case 'Clear':
+      document.body.classList.add('clear')
+      break
+    case 'Clouds':
+      document.body.classList.add('clouds')
+      break
+    case 'Rain':
+      document.body.classList.add('rain')
+      break
+    case 'Snow':
+      document.body.classList.add('snow')
+      break
+    case 'Thunderstorm':
+      document.body.classList.add('thunderstorm')
+      break
+    default:
+      document.body.classList.add('mist')
   }
-
-  fetch(`https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${query}`)
-    .then(res => res.json())
-    .then(data => {
-      suggestionsContainer.innerHTML = ''
-
-      data.forEach(location => {
-        const div = document.createElement('div')
-        div.className = 'suggestion-item'
-        div.textContent = `${location.name}, ${location.country}`
-
-        div.addEventListener('click', () => {
-          cityInput.value = `${location.name}, ${location.country}`
-          // selectedCity = location.name
-          suggestionsContainer.innerHTML = ''
-          fetchWeatherData(location.name)
-        })
-
-        suggestionsContainer.appendChild(div)
-      })
-    })
-    .catch(err => console.error('Autocomplete error:', err))
-})
-
-cityInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault()
-    const city = cityInput.value.trim()
-    if (!city) {
-      window.alert('Please enter a city name')
-      return
-    }
-    fetchWeatherData(city)
-    suggestionsContainer.innerHTML = ''
-  }
-})
-
-document.addEventListener('click', (e) => {
-  if (e.target !== cityInput) {
-    suggestionsContainer.innerHTML = ''
-  }
-})
+}
 
 const updateMapLink = (destination) => {
   const baseURL = 'https://www.google.com/maps/search/?api=1'
   const encodedDestination = encodeURIComponent(destination)
-  const finalURL = `${baseURL}&query=${encodedDestination}`
+  mapLink.href = `${baseURL}&query=${encodedDestination}`
+}
 
-  mapLink.href = finalURL
+const displayPastForecast = (data) => {
+  const container = document.getElementById('past-container')
+  container.innerHTML = ''
+
+  const unitSymbol = currentUnit === 'metric' ? '°C' : '°F'
+
+  const dailyData = data.list.filter(item =>
+    item.dt_txt.includes('12:00:00')
+  )
+
+  const reversed = dailyData.slice(0, 5).reverse()
+
+  reversed.forEach(day => {
+    const date = new Date(day.dt_txt).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    })
+
+    const card = document.createElement('div')
+    card.className = 'forecast-card'
+
+    card.innerHTML = `
+      <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" />
+      <p>${Math.round(day.main.temp)}${unitSymbol}</p>
+      <p>${day.weather[0].description}</p>
+      <p>Humidity: ${day.main.humidity}%</p>
+    `
+
+    container.appendChild(card)
+  })
 }
