@@ -174,17 +174,22 @@ cityInput.addEventListener('input', async () => {
 cityButton.addEventListener('click', () => {
   const city = cityInput.value.trim()
 
-  if (!city) {
-    window.alert('Please enter a city name')
-    return
-  }
+  if (!city) return
 
+  suggestionsContainer.innerHTML = ''
   fetchWeatherData(city)
 })
 
 cityInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     cityButton.click()
+  }
+})
+
+cityInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    suggestionsContainer.innerHTML = ''
+    fetchWeatherData(cityInput.value.trim())
   }
 })
 
