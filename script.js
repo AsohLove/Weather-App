@@ -182,6 +182,12 @@ cityButton.addEventListener('click', () => {
   fetchWeatherData(city)
 })
 
+cityInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    cityButton.click()
+  }
+})
+
 const celsiusBtn = document.getElementById('celsius-btn')
 const fahrenheitBtn = document.getElementById('fah-btn')
 
@@ -260,12 +266,6 @@ const displayPastForecast = (data) => {
   const reversed = dailyData.slice(0, 5).reverse()
 
   reversed.forEach(day => {
-    const date = new Date(day.dt_txt).toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric'
-    })
-
     const card = document.createElement('div')
     card.className = 'forecast-card'
 
