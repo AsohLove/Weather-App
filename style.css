@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
   padding: 40px 60px;
   backdrop-filter: blur(20px);
-  background: rgba(0, 0, 0, 35%);
+  background: rgba(0 0 0 / 35%);
 }
 
 .location {
@@ -83,7 +83,7 @@ body {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 18%);
+  background: rgba(255 255 255 /18%);
   backdrop-filter: blur(25px);
   border-radius: 28px;
   padding: 25px;
@@ -113,12 +113,12 @@ body {
 }
 
 .properties {
-  background: rgba(255 255 255 1%);
+  background: rgba(255 255 255 / 1%);
   backdrop-filter: blur(15px);
   border-radius: 20px;
   padding: 30px;
   min-width: 250px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 30%);
+  box-shadow: 0 10px 30px rgba(0 0 0 / 30%);
 }
 
 .weather-prop {
@@ -134,7 +134,7 @@ body {
 }
 
 .forecast h2 {
-  margin: 50px 0 20px 0;
+  margin: 50px 0 20px;
   font-size: 22px;
 }
 
@@ -152,8 +152,8 @@ body {
   border-radius: 20px;
   text-align: center;
   backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 12%);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 25%);
+  background: rgba(255 255 255 / 12%);
+  box-shadow: 0 10px 25px rgba(0 0 0 / 25%);
   transition: 0.3s ease;
 }
 
@@ -192,8 +192,8 @@ body {
   border-radius: 20px;
   text-align: center;
   backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 15%);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 25%);
+  background: rgba(255 255 255 / 15%);
+  box-shadow: 0 10px 25px rgba(0 0 0 / 25%);
   transition: 0.3s ease;
 }
 
@@ -259,7 +259,6 @@ body {
 }
 
 @media (max-width: 768px) {
-
   .container {
     padding: 20px;
   }
