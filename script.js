@@ -1,5 +1,5 @@
 /* global localStorage */
-const apiKey = 'e4b41e596be36010c330bda7a6ed4a26'
+const apiKey = 'e4b41e596be36010c330bda7a6ed4a26' // gitleaks:allow
 
 let currentUnit = 'metric'
 let currentCity = null

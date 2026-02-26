@@ -87,10 +87,10 @@ const loadLastCity = () => {
 
 ### App Preview
 
-- Desktop version 
+- Desktop version
   ![Weather desktop version](./images/Weather-Desptop.png)
 
-- Mobile version 
+- Mobile version
  ![Weather mobile version](./images/Weather-Mobile.png)
 
 * :rocket: [Deployed page](https://asohlove.github.io/Weather-App/)
