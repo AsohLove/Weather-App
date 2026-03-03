@@ -40,8 +40,7 @@ body {
   outline: none;
 }
 
-#city-btn,
-#map-link {
+#city-btn {
   padding: 15px 20px;
   background-color: #2196f3;
   color: white;
@@ -51,6 +50,23 @@ body {
   font-size: 15px;
   text-decoration: none;
   margin: 10px 0;
+}
+
+#map-link {
+  padding: 0.8em 1.2em;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 0.75em;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  margin: 0.5em 0;
+  width: 100%;
+  max-width: 250px;
+  display: block;
+  text-align: center;
+  transition: background 0.3s ease;
 }
 
 .today-weather {
@@ -201,7 +217,7 @@ body {
   transform: translateY(-6px);
 }
 
-.suggestions {
+#suggestions {
   position: absolute;
   background: white;
   color: black;
