@@ -1,14 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
 
-    <script src="script.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <h1 class="app-name"><img src="./images/weather-app.png" alt="Weather Icon" height="70">WeatherView</h1>
+
+    <p class="search">Search a city's weather</p>
+    <input type="text" id="city" placeholder="Enter a city" autocomplete="off">
+    <div id="suggestions" class="suggestions-container"></div>
+    <button id="city-btn">Get Weather</button>
+
+    <a id="map-link" href="#" target="_blank">View on Google Maps</a>
+
+    <div id="weather-info" class="animate-animated animate-fade">
+      <div class="location">
+        <div>
+          <h2 id="city-name"></h2>
+        </div>
+        <h3 id="date"></h3>
+      </div>
+
+      <h2 class="today-weather">Today's Weather: </h2>
+      <div class="glass-card">
+        <div class="weather-prop">
+          <div class="properties">
+            <img src="./images/humidity.png" alt="humidity" height="80">
+            <p id="humidity"></p>
+          </div>
+
+          <div class="properties">
+            <img src="./images/temp.png" alt="temperature" height="80">
+            <p><strong>Now</strong></p>
+            <p id="temperature"></p>
+            <div class="toggle-unit">
+              <button id="celsius-btn" class="active">°C</button>
+              <button id="fah-btn">°F</button>
+            </div>
+          </div>
+
+          <div class="properties">
+            <img src="./images/description.png" alt="weather description" height="80">
+            <p id="description"></p>
+          </div>
+          <div class="properties">
+            <img src="./images/wind.png" alt="wind speed" height="80">
+            <p id="wind-speed"></p>
+          </div>
+        </div>
+        <img id="weather-icon" class="properties" src="#" alt="Weather Icon">
+
+
+      </div>
+
+
+    </div>
+
+    <div class="weather-container">
+      <div class="forecast">
+        <h2>Next 5 days Forecast</h2>
+        <div id="forecast-container"></div>
+      </div>
+      <div class="forecast">
+        <h2>Hourly Forecast</h2>
+        <div id="hourly-container" class="hourly-wrapper"></div>
+      </div>
+
+      <div class="forecast">
+        <h2>Past 5 days</h2>
+        <div id="past-container" class="forecast-grid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
+
 </html>
